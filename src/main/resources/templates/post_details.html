@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pl" layout:decorator="layout/base"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+
+<head prefix=" og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
+    <title th:text="${post.title}"></title>
+    <link rel="canonical" th:href="${@environment.getProperty('sitemap.base.url')} + '/posts/' + ${post.slug}"/>
+
+    <!--/* FACEBOOK OPEN GRAPH MARKERS */-->
+    <meta property="fb:app_id" th:content="${@environment.getProperty('facebook.app.id')}"/>
+    <meta property="og:url"
+          th:content="'https://' + ${#httpServletRequest.getHeader('host')} + '/posts/' + ${post.slug}"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" th:content="${post.title} + ' | ogarne.to'"/>
+    <meta property="og:description" th:content="${post.description}"/>
+    <meta th:if="${post.author.fbId != null}"
+          property="article:author"
+          th:content="'https://www.facebook.com/' + ${post.author.fbId}"/>
+    <meta property="article:publisher"
+          th:content="'https://www.facebook.com/' + ${@environment.getProperty('facebook.publisher')}"/>
+    <meta th:if="${post.imagePaths != null}"
+          th:each="path : ${post.imagePaths}"
+          property="og:image"
+          th:content="${'https://' + #httpServletRequest.getHeader('host')} + ${path}"/>
+    <!--/* /FACEBOOK OPEN GRAPH MARKERS  */-->
+
+
+</head>
+
+
+<body>
+<section layout:fragment="content"  itemscope="itemscope" itemtype="http://schema.org/Article">
+    <div id="fb-root"></div>
+
+    <div th:object="${post}">
+
+        <div class="w-100 mb-2">
+            <div class="float-left d-inline mt-1"><a th:href="${#httpServletRequest.getHeader('referer')}">
+                <span class="fa fa-chevron-left ob-header-element mr-2" aria-hidden="true"></span>
+            </a></div>
+            <h2 th:text="*{#strings.toUpperCase(title)}" class="my-0 ob-header-element d-inline"></h2>
+
+
+        </div>
+
+
+        <div class="ob-post-header ob-color-darkgrey mb-0">
+
+            <span class="fa fa-user-o" aria-hidden="true"></span>
+            <span th:text="*{author.fullName}" class="pr-4"></span>
+
+            <span class="fa fa-calendar-o" aria-hidden="true"></span>
+            <span th:text="*{#dates.format(dateCreated, 'dd MMMM yyyy HH:mm')}" class="pr-4"></span>
+
+            <!--/* <span class="fa fa-user-o" aria-hidden="true"></span>
+             <span th:text="*{author.username}" class="pr-4"></span> */-->
+            <span class="fa fa-folder-open-o" aria-hidden="true"></span>
+            <a th:href="@{|/categories/*{category.name}|}"><span th:text="*{category.displayName}"></span></a>
+
+            <span id="shareBtn" class=" ml-3">
+                <span class="fa fa-facebook-f"></span>
+                <span>szer</span>
+            </span>
+
+
+            <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{|/admin/posts/*{id}/edit|}" class="pl-4">
+                <span class="fa fa-pencil ob-color-darkgrey"></span>
+            </a>
+        </div>
+        <hr class="pb-3"/>
+
+        <figure class="figure mb-2" th:if="${post.mainImage != null}">
+            <img class="figure-img img-fluid ob-cover mx-auto d-block mb-0"
+                  th:src="@{${post.mainImage}}" />
+        <figcaption th:if="${post.caption != null}"
+                class="figure-caption text-right" th:text="${post.caption}"></figcaption>
+        </figure>
+        <div th:utext="*{body}" class="ob-content" itemprop="articleBody"></div>
+
+
+    </div>
+
+    <meta itemprop="url" th:content="'https://' + ${#httpServletRequest.getHeader('host')} + '/posts/' + ${post.slug}" />
+    <meta itemprop="headline" th:content="${post.title}" />
+    <meta itemprop="description" th:content="${post.description}" />
+    <meta itemprop="image" th:content="${'https://' + #httpServletRequest.getHeader('host')} + ${post.mainImage}" />
+
+    <span itemprop="publisher" itemscope="itemscope" itemtype="http://schema.org/Organization">
+        <meta itemprop="name" content="ogarne.to"/>
+        <span itemprop="logo" itemscope="itemscope" itemtype="https://schema.org/ImageObject">
+            <meta itemprop="url" content="https://ogarne.to/logo.png" />
+            <meta itemprop="width" content="600"/>
+            <meta itemprop="height" content="60"/>
+        </span>
+    </span>
+
+    <span itemprop="author" itemscope="itemscope" itemtype="http://schema.org/Person">
+        <meta itemprop="name" th:content="${post.author.fullName}" />
+    </span>
+    <meta itemprop="articleSection" th:content="${post.category.displayName}" />
+    <meta itemprop="datePublished" th:content="${#dates.format(post.dateCreated, 'yyyy-MM-dd HH:mm')}" />
+    <meta itemprop="dateModified" th:content="${#dates.format(post.dateModified, 'yyyy-MM-dd HH:mm')}" />
+
+
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+
+
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: [[${@environment.getProperty('facebook.app.id')}]],
+                autoLogAppEvents: true,
+                xfbml: true,
+                version: 'v2.10'
+            });
+            FB.AppEvents.logPageView();
+        };
+
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {
+                return;
+            }
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+
+        document.getElementById('shareBtn').onclick = function () {
+            var url = 'https://' + [[${#httpServletRequest.getHeader('host')}]] + '/posts/' + [[${post.slug}]];
+
+            FB.ui({
+                method: 'share',
+                display: 'popup',
+                href: url,
+            }, function (response) {
+            });
+        }
+        /*]]>*/
+    </script>
+
+</section>
+
+
+</body>
+</html>

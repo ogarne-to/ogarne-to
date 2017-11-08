@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pl" layout:decorator="layout/base"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+    <meta name="robots" content="noindex" />
+</head>
+<body>
+<section layout:fragment="content">
+
+    <!-- New post creation form -->
+
+    <!--/*@thymesVar id="post" type="to.ogarne.ogarneblog.model.Post"*/-->
+    <!--/*@thymesVar id="post" type="to.ogarne.ogarneblog.model.User"*/-->
+    <form th:action="@{${action}}" th:object="${page}" method="post">
+        <input type="hidden" th:field="*{id}"/>
+        <div class="form-group" >
+            <label for="inputTitle">Title</label>
+            <input type="text" class="form-control" id="inputTitle" aria-describedby="emailHelp"
+                   placeholder="Enter title"
+                   th:field="*{title}"
+                   th:classappend="${#fields.hasErrors('title') ? 'is-invalid' : ''}"/>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">An
+                error
+                occured
+            </div>
+            <small id="emailHelp" class="form-text text-muted">Enter the tile of your new blog post.</small>
+        </div>
+
+        <div class="form-group" >
+            <label for="inputTitle">Slug</label>
+            <input type="text" class="form-control" id="inputSlug" aria-describedby="emailHelp"
+                   placeholder="Enter slug"
+                   th:field="*{slug}"
+                   th:classappend="${#fields.hasErrors('slug') ? 'is-invalid' : ''}"/>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('slug')}" th:errors="*{slug}">An
+                error
+                occured
+            </div>
+            <small id="emailHelp" class="form-text text-muted">Enter the slug of your post. If left empty - it will be
+                created automatically
+            </small>
+        </div>
+
+        <div class="form-group" >
+            <label for="inputDesc">Body</label>
+            <textarea class="form-control" id="inputDesc" rows="4" th:field="*{description}"></textarea>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">An
+                error
+                occured
+            </div>
+        </div>
+
+
+        <div class="form-group" >
+            <label for="inputBody">Body</label>
+            <textarea class="form-control" id="inputBody" rows="10" th:field="*{body}"></textarea>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('body')}" th:errors="*{title}">An
+                error
+                occured
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="togglePublish">Published?</label>
+            <select class="form-control" id="togglePublish"
+                    th:classappend="${#fields.hasErrors('${page}') ? 'is-invalid' : ''}"
+                    th:field="*{published}">
+                <option th:value="true">Yes</option>
+                <option th:value="false">No</option>
+
+            </select>
+        </div>
+
+
+        <div class="form-group" >
+
+            <div class="form-group">
+                <label for="selectParent">Parent</label>
+                <select class="form-control" id="selectParent" th:field="*{parent.id}"
+                        th:classappend="${#fields.hasErrors('${page}') ? 'is-invalid' : ''}">
+                    <option th:value="0" th:text="'Select Parent'"></option>
+                    <option th:each="page : ${pages}" th:text="${page.title}" th:value="${page.id}"></option>
+
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="selectParent">Menu position</label>
+                <input type="text" class="form-control" id="menuPosition" aria-describedby="emailHelp"
+                       placeholder="Enter position in menu"
+                       th:field="*{menuPosition}"
+                       th:classappend="${#fields.hasErrors('${page}') ? 'is-invalid' : ''}"/>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('${page}')}">You can't set the parent and the position in the menu at the same time
+                </div>
+            </div>
+        </div>
+
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a class="btn btn-primary pull-right" th:classappend="${page.id != null} ? '' : 'disabled'"
+           th:href="@{|/page/*{slug}|}" role="button">Show</a>
+
+    </form>
+
+
+</section>
+
+
+</body>
+</html>
+
+
+
+
+
+

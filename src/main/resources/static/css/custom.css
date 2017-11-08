@@ -1,0 +1,184 @@
+
+@import url('https://fonts.googleapis.com/css?family=Roboto+Slab:400,700&subset=latin-ext');
+@import url('https://fonts.googleapis.com/css?family=Anton|Oswald:500');
+
+
+/*
+Kolory:
+
+kolor tekstu: #212529
+akcent:
+
+
+
+*/
+
+body, nav {
+    background-color: #f8f8f8;
+}
+
+a:link {
+    text-decoration: none;
+    color: #212529;
+
+}
+
+a:visited {
+    color: #212529;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #212529;
+}
+
+a:active {
+    color: #212529;
+}
+
+.nav-item.nav-link.active {
+    text-decoration: underline;
+}
+
+
+.ob-footer a:link,
+.ob-content a:link {
+    text-decoration: underline;
+    color: #212529;
+
+}
+
+.ob-footer a:visited,
+.ob-content a:visited {
+    color: #212529;
+}
+
+.ob-footer a:hover,
+.ob-content a:hover {
+    text-decoration: none;
+    color: #212529;
+}
+
+.ob-footer a:active,
+.ob-content a:active {
+    color: #212529;
+}
+
+
+
+
+
+
+
+
+body, nav  {
+    font-size:18px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", "Siyam Rupali", sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6{
+    font-family: 'Oswald','Roboto Slab', Georgia, "Times New Roman", Times, serif;
+    font-weight: 700;
+    color: #313131;
+}
+
+pre {
+    padding:1rem;
+    background-color: #313131;
+}
+
+pre code {
+
+    color: white;
+    font-family: "Ubuntu Mono", Consolas, Monaco, "Andale Mono", monospace;
+    font-size: 16px;
+}
+
+textarea {
+    font-family: "Ubuntu Mono", Consolas, Monaco, "Andale Mono", monospace;
+
+}
+
+
+.ob-table-posts {
+    font-size: 0.9rem;
+}
+
+.ob-table-posts a {
+    color: #676767;
+}
+
+
+.ob-post-header {
+    display: inline-block;
+    font-size:0.9rem;
+}
+
+.ob-border {
+    color: #FFCD00;
+
+}
+.ob-border-grey {
+    border-bottom: solid 2px #ECEEEF;
+}
+
+.ob-footer {
+    border-top: solid 2px #ECEEEF;
+}
+
+#navbarNavAltMarkup > div > a.nav-item.nav-link {
+    color: rgb(117, 117, 117);
+
+}
+
+
+
+ob.chevron {
+    font-size:1em;
+}
+
+.ob-header-element {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.ob-cover {
+    object-fit: cover
+}
+
+.ob-smaller {
+    font-size: 0.9rem;
+}
+
+.ob-color-orange {
+    color: #FFCD00 !important;
+}
+
+.ob-color-darkgrey {
+    color: #676767 !important;
+}
+
+/*Prevents scorllbar from moving longer pages few pixels to the left*/
+
+html {
+    overflow-y: scroll;
+}
+
+.pagination .page-item .page-link {
+    border: none;
+    background-color: transparent;
+}
+
+#shareBtn {
+    cursor: pointer;
+}
+
+blockquote {
+    padding-left: 1rem;
+    border-left: solid 6px #ccc;
+    padding-right: 1rem;
+}
+
+.figure-caption {
+    font-size: .9rem;
+}

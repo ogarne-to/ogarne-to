@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html layout:decorator="layout/base" lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Strona główna</title>
+    <link rel="canonical" th:href="${@environment.getProperty('sitemap.base.url')}" />
+
+    <!--/* FACEBOOK OPEN GRAPH MARKERS */-->
+    <meta property="fb:app_id"             th:content="${@environment.getProperty('facebook.app.id')}" />
+    <meta property="og:url"                th:content="${@environment.getProperty('sitemap.base.url')}"  />
+    <meta property="og:type"               content="website" />
+    <meta property="og:title"              content="ogarne.to" />
+    <meta property="og:description"        th:content="${homePage.description}" />
+    <meta th:if="${homePage.imagePaths != null}"
+          th:each="path : ${homePage.imagePaths}"
+          property="og:image"
+          th:content="${'https://' + #httpServletRequest.getHeader('host')} + ${path}" />
+    <!--/* /FACEBOOK OPEN GRAPH MARKERS  */-->
+
+</head>
+<body>
+<section layout:fragment="content" class="ob-content">
+    <div th:utext="${homePage.body}" class="ob-content"></div>
+
+</section>
+
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pl" layout:decorator="layout/base"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+    <meta name="robots" content="noindex" />
+</head>
+<body>
+<section layout:fragment="content">
+
+    <!-- New post creation form -->
+
+    <!--/*@thymesVar id="post" type="to.ogarne.ogarneblog.model.Post"*/-->
+    <!--/*@thymesVar id="post" type="to.ogarne.ogarneblog.model.User"*/-->
+    <form th:action="@{/admin/addCategory}" th:object="${category}" method="post">
+        <input type="hidden" th:field="*{id}"/>
+        <div class="form-group" th:classappend="${#fields.hasErrors('name') ? 'has-danger' : ''}">
+            <input type="text" class="form-control" id="name" aria-describedby="emailHelp"
+                   placeholder="Enter name (slug)"
+                   th:field="*{name}"
+                   th:classappend="${#fields.hasErrors('name') ? 'form-control-warning' : ''}"/>
+            <div class="form-control-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">An
+                error
+                occured
+            </div>
+        </div>
+
+        <div class="form-group" th:classappend="${#fields.hasErrors('displayName') ? 'has-danger' : ''}">
+            <input type="text" class="form-control" id="inputDisplayName" aria-describedby="inputDisplayName"
+                   placeholder="Enter display name"
+                   th:field="*{displayName}"
+                   th:classappend="${#fields.hasErrors('displayName') ? 'form-control-warning' : ''}"/>
+            <div class="form-control-feedback" th:if="${#fields.hasErrors('displayName')}" th:errors="*{displayName}">An
+                error
+                occured
+            </div>
+
+        </div>
+
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+
+
+    </form>
+
+
+</section>
+
+
+</body>
+</html>
+
+
+
+
+
+

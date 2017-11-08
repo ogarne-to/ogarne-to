@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pl" layout:decorator="layout/base"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+
+
+<head prefix=" og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
+    <title th:text="${page.title}"></title>
+    <link rel="canonical" th:href="${@environment.getProperty('sitemap.base.url')} + '/pages/' + ${page.slug}"/>
+
+    <!--/* FACEBOOK OPEN GRAPH MARKERS */-->
+    <meta property="fb:app_id"             th:content="${@environment.getProperty('facebook.app.id')}" />
+    <meta property="og:url"                th:content="'https://' + ${#httpServletRequest.getHeader('host')} + '/pages/' + ${page.slug}"  />
+    <meta property="og:type"               content="article" />
+    <meta property="og:title"              th:content="${page.title} + ' | ogarne.to'" />
+    <meta property="og:description"        th:content="${page.description}" />
+    <meta property="article:author"        th:content="${@environment.getProperty('facebook.defaultauthor')}" />
+    <meta property="article:publisher" th:content="${@environment.getProperty('facebook.publisher')}"/>
+
+    <meta th:if="${page.imagePaths != null}"
+          th:each="path : ${page.imagePaths}"
+          property="og:image"
+          th:content="${'https://' + #httpServletRequest.getHeader('host')} + ${path}" />
+    <!--/* /FACEBOOK OPEN GRAPH MARKERS  */-->
+
+</head>
+
+
+<body>
+<section layout:fragment="content">
+
+    <div th:object="${page}">
+        <div th:utext="*{body}" class="ob-content"></div>
+
+    </div>
+
+</section>
+
+
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pl" layout:decorator="layout/base"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta name="robots" content="noindex" />
+</head>
+
+<body>
+<section layout:fragment="content">
+
+
+    <!--/* Tytuł kategorii + link do tyłu */-->
+
+    <p th:if="${categories == null}">
+        <a th:href="${#httpServletRequest.getHeader('referer')}"><span class="fa fa-angle-double-left mr-2"></span></a>
+        <span class="fa fa-folder-open-o"></span>
+        <span th:text="${category.displayName}"></span>
+    </p>
+
+    <!--/* Lista kategorii - widoczna tylko w widoku wszystkich postów */-->
+
+    <div th:if="${categories != null}" class="ob-color-darkgrey">
+        <small class="mr-2">Kategorie:</small>
+        <small th:each="category: ${categories}">
+            <span class="fa fa-folder-open-o mr-1"></span><a class="mr-3" th:text="${category.displayName}"
+                                                             th:href="@{|/categories/${category.name}|}"></a>
+        </small>
+    </div>
+
+
+    <hr class="ob-border mb-3"/>
+
+    <div th:each="post : ${posts}" class="pb-2 mb-4">
+        <a th:href="@{|/posts/${post.slug}|}">
+            <h2 th:text="${#strings.toUpperCase(post.title)}"></h2>
+        </a>
+        <div class="ob-smaller mb-3 ob-color-darkgrey">
+
+            <span class="fa fa-calendar-o mt-1" aria-hidden="true"></span>
+            <span class="ml-2 mr-2" th:text="${#dates.format(post.dateCreated, 'dd MMMM yyyy')}"></span>
+            <span th:if="${categories != null}">
+                <span class="fa fa-folder-open-o mt-1" aria-hidden="true"></span>
+                <a class="ml-1"
+                   th:text="${post.category.displayName}"
+                   th:href="@{|/categories/${post.category.name}|}"></a>
+            </span>
+
+        </div>
+            <img class="img-fluid ob-cover mx-auto d-block mb-2"
+                 th:src="@{${post.mainImage}}"
+                 th:if="${post.mainImage != null}"/>
+
+        <div th:utext="${post.body}"></div>
+    </div>
+
+    <nav aria-label="Page navigation ">
+        <ul class="pagination justify-content-end mb-3">
+
+            <!--/* Paginacja w lewo */-->
+            <li class="page-item " th:classappend="${pagination.getPageable().hasPrevious()} ? '' : 'disabled'">
+                <a class="page-link"
+                   th:href="@{|/${paginationPath}/?page=${pagination.getPageable().previousOrFirst().getPageNumber()}|}"
+                   tabindex="-1"><span class="fa fa-chevron-left"></span></a>
+            </li>
+
+            <!--/* Paginacja w prawo */-->
+            <li class="page-item" th:classappend="${pagination.isLast()} ? 'disabled' : ''">
+                <a class="page-link"
+                   th:href="@{|/${paginationPath}/?page=${pagination.getPageable().next().getPageNumber()}|}"><span
+                        class="fa fa-chevron-right"></span></a>
+            </li>
+        </ul>
+    </nav>
+
+
+</section>
+
+
+</body>
+</html>

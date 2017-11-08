@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pl" layout:decorator="layout/base"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="robots" content="noindex" />
+
+</head>
+<body>
+<section layout:fragment="content">
+
+    <form th:action="@{/admin/editmenu}" th:object="${wrapper}" method="post">
+        <div th:each="category, stat : *{categories}" class="form-group">
+            <input type="hidden" th:field="*{categories[__${stat.index}__].id}"/>
+            <input type="hidden" th:field="*{categories[__${stat.index}__].name}"/>
+            <input type="text" th:field="*{categories[__${stat.index}__].displayName}"/>
+            <label for="inputTitle" th:text="${category.displayName}">disabled</label>
+            <input type="text" class="form-control" id="inputTitle" aria-describedby="emailHelp"
+                   placeholder="disabled" th:field="*{categories[__${stat.index}__].positionInMenu}"/>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+
+
+    </form>
+
+
+</section>
+
+</body>
+</html>

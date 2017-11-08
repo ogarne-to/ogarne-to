@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pl" layout:decorator="layout/base"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="robots" content="noindex" />
+</head>
+
+<body>
+<section layout:fragment="content">
+    <div class="row mt-4">
+        <div class="col">
+            <table class="table table-hover ob-table-posts">
+                <thead class="thead-default">
+                <tr>
+                    <th>ID</th>
+                    <th>Author</th>
+                    <th>Title</th>
+                    <th>Cat</th>
+                    <th>Created</th>
+                    <th>Modified</th>
+                    <th>Pub</th>
+                    <th>&nbsp;</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="post : ${posts}">
+                    <td th:text="${post.id}"></td>
+                    <td th:text="${post.author.username}"></td>
+                    <td><a th:href="@{|/admin/posts/${post.id}/edit|}" th:text="${post.title}">Tytuł postu</a></td>
+                    <td th:text="${post.category.displayName}"></td>
+                    <td th:text="${#dates.format(post.dateCreated, 'yy/MM/dd HH:mm')}"></td>
+                    <td th:text="${#dates.format(post.dateModified, 'yy/MM/dd HH:mm')}"></td>
+                    <td><span th:classappend="${post.published} ? 'fa fa-check' : ''"></span></td>
+                    <td>
+                        <form th:action="@{|/admin/posts/${post.id}/delete|}" method="post">
+                            <button type="submit" class="btn btn-outline-danger btn-sm">
+                                <span class="fa fa-trash"></span>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+</body>
+</html>

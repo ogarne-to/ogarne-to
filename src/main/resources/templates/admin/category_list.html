@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pl" layout:decorator="layout/base"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="robots" content="noindex" />
+</head>
+
+<body>
+<section layout:fragment="content">
+    <div class="row mt-4">
+        <div class="col">
+            <table class="table table-hover ob-table-posts">
+                <thead class="thead-default">
+                <tr>
+                    <th>ID</th>
+                    <th>Display name</th>
+                    <th>Name (slug)</th>
+                    <th>&nbsp;</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="category : ${categories}">
+                    <td th:text="${category.id}"></td>
+                    <td ><a th:text="${category.displayName}" th:href="@{|/admin/categories/${category.name}/edit|}"></a></td>
+                    <td><a th:text="${category.name}" th:href="@{|/admin/categories/${category.name}/edit|}"></a></td>
+                    <td>
+                        <form th:action="@{|/admin/categories/${category.name}/delete|}" method="post">
+                            <button type="submit" class="btn btn-outline-danger btn-sm">
+                                <span class="fa fa-trash"></span>
+                            </button>
+                        </form>
+                    </td>
+
+                </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+</body>
+</html>

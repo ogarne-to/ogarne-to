@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pl" layout:decorator="layout/base"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="robots" content="noindex" />
+</head>
+
+<body>
+<section layout:fragment="content">
+    <div class="row mt-4">
+        <div class="col">
+            <form th:action="@{/admin/pages}" th:object="${wrapper}" method="post">
+            <table class="table table-hover ob-table-posts">
+                <thead class="thead-default">
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Parent</th>
+                    <th>Slug</th>
+                    <th>Pos</th>
+                    <th>&nbsp;</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr th:each="page : ${pages}">
+                    <td th:text="${page.id}"></td>
+                    <td><a th:href="@{|/admin/page/${page.id}/edit|}" th:text="${page.title}">Tytuł postu</a></td>
+                    <td ><span th:if="${page.parent != null}" th:text="${page.parent.title}"></span></td>
+                    <td th:text="${page.slug}"></td>
+                    <td th:text="${page.menuPosition}"></td>
+                    <td>
+                        <form th:action="@{|/admin/pages/${page.id}/delete|}" method="post">
+                            <button type="submit" class="btn btn-outline-danger btn-sm">
+                                <span class="fa fa-trash"></span>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+
+                </tbody>
+
+            </table>
+            </form>
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+</body>
+</html>
